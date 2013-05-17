@@ -1,0 +1,423 @@
+{
+	"name": "defaults",
+	"elements": [
+		{
+			"name": "Static Text",
+			"type": "STATIC_TEXT",
+			"value": "This is static text and click me",
+			"html": "<div></div>",
+			"resizable": true,
+			"style": [
+				{
+					"name": "Font Family",
+					"id": "font_family",
+					"input_type": "select",
+					"editable": false,
+					"selection": ["Courier", "Times New Roman", "Helvetica"],
+					"css": [
+						{
+							"name": "font-family",
+							"format": "%s",
+							"defaults": "Courier",
+							"data_type": "string"
+						}
+					]
+				}, {
+					"name": "font size",
+					"id": "font_size",
+					"input_type": "select",
+					"editable": true,
+					"selection": [6, 7, 8, 9, 10, 11, 12, 13, 14],
+					"css": [
+						{
+							"name": "font-size",
+							"format": "%d",
+							"defaults": 12,
+							"data_type": "number",
+							"unit": "pt"
+						}
+					],
+					"html": "<input type='text'>"
+				}, {
+					"name": "Italic",
+					"id": "italic",
+					"input_type": "checkbox",
+					"editable": true,
+					"css": [
+						{
+							"name": "font-style",
+							"true": "italic",
+							"false": "normal",
+							"defaults": false,
+							"data_type": "boolean"
+						}
+					]
+				}, {
+					"name": "Bold",
+					"id": "bold",
+					"input_type": "checkbox",
+					"editable": true,
+					"css": [
+						{
+							"name": "font-weight",
+							"true": "bold",
+							"false": "normal",
+							"defaults": false,
+							"data_type": "boolean"
+						}
+					]
+				}, {
+					"name": "Underline",
+					"id": "underline",
+					"input_type": "checkbox",
+					"editable": true,
+					"css": [
+						{
+							"name": "text-decoration",
+							"true": "underline",
+							"false": "none",
+							"defaults": false,
+							"data_type": "boolean"
+						}
+					]
+				}, {
+					"name": "text-align",
+					"id": "text_align",
+					"input_type": "select",
+					"editable": false,
+					"selection": ["right", "center", "left", "justify"],
+					"css": [
+						{
+							"name": "text-align",
+							"format": "%s",
+							"defaults": "left",
+							"data_type": "string"
+						}
+					]
+				}, {
+					"name": "vertical-align",
+					"id": "vertical_align",
+					"input_type": "select",
+					"editable": false,
+					"selection": ["top", "middle", "bottom"],
+					"css": [
+						{
+							"name": "vertical-align",
+							"format": "%s",
+							"defaults": "top",
+							"data_type": "string"
+						}
+					]
+				}, {
+					"name": "text",
+					"id": "text",
+					"input_type": "textarea",
+					"editable": true,
+					"html": "<textarea/>",
+					"data_type": "string"
+				}, {
+					"name": "color",
+					"id": "color",
+					"input_type": "select",
+					"editable": false,
+					"selection": ["black", "cyan", "darkgray", "lightgray", "magenta", "pink", "white", "red", "blue", "yellow", "green", "orange"],
+					"css": [
+						{
+							"name": "color",
+							"format": "%s",
+							"defaults": "black",
+							"data_type": "string"
+						}
+					]
+				}, {
+					"name": "background-color",
+					"id": "background_color",
+					"input_type": "select",
+					"editable": false,
+					"selection": ["black", "cyan", "darkgray", "lightgray", "magenta", "pink", "white", "red", "blue", "yellow", "green", "orange"],
+					"css": [
+						{
+							"name": "background-color",
+							"format": "%s",
+							"defaults": "white",
+							"data_type": "string"
+						}
+					]
+				}
+			]
+		}, {
+			"name": "Variable Text",
+			"type": "VARIABLE_TEXT",
+			"value": "This is variable text and click me",
+			"html": "<div></div>",
+			"resizable": true,
+			"style": [
+				{
+					"name": "Font Family",
+					"id": "font_family",
+					"input_type": "select",
+					"editable": false,
+					"selection": ["Courier", "Times New Roman", "Helvetica"],
+					"css": [
+						{
+							"name": "font-family",
+							"format": "%s",
+							"defaults": "Courier",
+							"data_type": "string"
+						}
+					]
+				}, {
+					"name": "font size",
+					"id": "font_size",
+					"input_type": "select",
+					"editable": true,
+					"selection": [6, 7, 8, 9, 10, 11, 12, 13, 14],
+					"css": [
+						{
+							"name": "font-size",
+							"format": "%d",
+							"defaults": 12,
+							"data_type": "number",
+							"unit": "pt"
+						}
+					]
+				}, {
+					"name": "Italic",
+					"id": "italic",
+					"input_type": "checkbox",
+					"editable": true,
+					"css": [
+						{
+							"name": "font-style",
+							"true": "italic",
+							"false": "normal",
+							"defaults": false,
+							"data_type": "boolean"
+						}
+					]
+				}, {
+					"name": "Bold",
+					"id": "bold",
+					"input_type": "checkbox",
+					"editable": true,
+					"css": [
+						{
+							"name": "font-weight",
+							"true": "bold",
+							"false": "normal",
+							"defaults": false,
+							"data_type": "boolean"
+						}
+					]
+				}, {
+					"name": "Underline",
+					"id": "underline",
+					"input_type": "checkbox",
+					"editable": true,
+					"css": [
+						{
+							"name": "text-decoration",
+							"true": "underline",
+							"false": "none",
+							"defaults": false,
+							"data_type": "boolean"
+						}
+					]
+				}, {
+					"name": "text-align",
+					"id": "text_align",
+					"input_type": "select",
+					"editable": false,
+					"selection": ["right", "center", "left", "justify"],
+					"css": [
+						{
+							"name": "text-align",
+							"format": "%s",
+							"defaults": "left",
+							"data_type": "string"
+						}
+					]
+				}, {
+					"name": "vertical-align",
+					"id": "vertical_align",
+					"input_type": "select",
+					"editable": false,
+					"selection": ["top", "middle", "bottom"],
+					"css": [
+						{
+							"name": "vertical-align",
+							"format": "%s",
+							"defaults": "top",
+							"data_type": "string"
+						}
+					]
+				}
+			]
+		}, {
+			"name": "line",
+			"type": "LINE",
+			"html": "<div><hr/></div>",
+			"resizable": false,
+			"style": [
+				{
+					"name": "line style",
+					"id": "line_style",
+					"input_type": "select",
+					"editable": false,
+					"selection": ["solid", "dotted", "dashed"],
+					"css": [
+						{
+							"name": "border-bottom-style",
+							"format": "%s",
+							"defaults": "solid",
+							"data_type": "string"
+						}
+					]
+				}, {
+					"name": "height",
+					"id": "height",
+					"input_type": "text",
+					"editable": true,
+					"css": [
+						{
+							"name": "border-bottom-width",
+							"format": "%d",
+							"defaults": 1,
+							"data_type": "number",
+							"unit": "pt"
+						}
+					]
+				}, {
+					"name": "color",
+					"id": "color",
+					"input_type": "text",
+					"editable": true,
+					"css": [
+						{
+							"name": "border-bottom-color",
+							"format": "%s",
+							"defaults": "#000000",
+							"data_type": "string"
+						}
+					]
+				}
+			]
+		}, {
+			"name": "image",
+			"type": "IMAGE",
+			"value": "where is an image, eh?",
+			"html": "<div></div>",
+			"resizable": true,
+			"style": [
+				{
+					"name": "location",
+					"id": "location",
+					"input_type": "text",
+					"editable": true,
+
+					"css": [
+						{
+							"name": "background-image",
+							"format": "url(%s)",
+							"defaults": "../png/glyphicons_194_circle_question_mark.png",
+							"data_type": "string"
+						}, {
+							"name": "background-repeat",
+							"value": "no-repeat"
+						}
+					]
+				}
+			]
+		}
+	],
+	"style": [
+		{
+			"id": "style_left",
+			"name": "X position",
+			"input_type": "text",
+			"editable": true,
+			"css": [
+				{
+					"name": "left",
+					"format": "%f",
+					"defaults": 0,
+					"data_type": "number",
+					"unit": "pt"
+				}
+			]
+		}, {
+			"id": "style_top",
+			"name": " Y position",
+			"input_type": "text",
+			"editable": true,
+
+			"css": [
+				{
+					"name": "top",
+					"format": "%f",
+					"defaults": 0,
+					"data_type": "number",
+					"unit": "pt"
+				}
+			]
+		}, {
+			"id": "style_width",
+			"name": "width",
+			"input_type": "text",
+			"editable": true,
+
+			"css": [
+				{
+					"name": "width",
+					"format": "%f",
+					"defaults": 150,
+					"data_type": "number",
+					"unit": "pt"
+				}
+			]
+		}, {
+			"id": "style_height",
+			"name": "height",
+			"input_type": "text",
+			"editable": true,
+			"css": [
+				{
+					"name": "height",
+					"format": "%f",
+					"defaults": 100,
+					"data_type": "number",
+					"unit": "pt"
+				}
+			]
+		}, {
+			"id": "style_border-style",
+			"name": "Border style",
+			"input_type": "select",
+			"editable": false,
+			"selection": ["none", "solid", "dotted"],
+			"css": [
+				{
+					"name": "border-style",
+					"format": "%s",
+					"defaults": "none",
+					"data_type": "string"
+				}
+			]
+		}, {
+			"id": "style_border-width",
+			"name": "Border width",
+			"input_type": "select",
+			"editable": true,
+			"selection": [1, 2, 3, 4, 5],
+			"css": [
+				{
+					"name": "border-width",
+					"format": "%d",
+					"defaults": 1,
+					"data_type": "number",
+					"unit": "pt"
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,64 @@
+chokidar = require "chokidar"
+path = require "path"
+{exec} = require "child_process"
+fs = require "fs"
+wrench = require 'wrench'
+require 'flour'
+
+# Constants
+handlebarDir = "templates"
+handlebarDestDir = "templates_js"
+lessDir = "less"
+lessDestDir = "css"
+hb = "node_modules/handlebars/bin/handlebars"
+
+compileTemplates = (src) ->
+  tarDir = path.dirname src.replace handlebarDir, handlebarDestDir
+  mkdir tarDir
+  basename = path.basename src
+  # Only process .template files
+  if path.extname(src) == '.template'
+    tar = path.join tarDir, basename
+    # Execute handlebars to precompile
+    exec hb + " #{src} -f #{tar}.js", (err, stdout, stderr) ->
+      if err 
+        console.log err
+      else
+        console.log "Compiled #{src} -> #{tar}.js"
+
+compileLess = (src) ->
+  tarDir = path.dirname src.replace lessDir, lessDestDir
+  basename = path.basename src, '.less'
+  tar = path.join tarDir, basename + ".css"
+  compile src, tar, (output) ->
+    console.log "Compiled #{src} -> #{tar}"
+
+mkdir = (destDir) ->
+  if not fs.existsSync destDir
+    wrench.mkdirSyncRecursive destDir, '0777'
+    
+rmdir = (destDir) ->
+  if fs.existsSync destDir
+    wrench.rmdirSyncRecursive destDir, false
+    
+option '-w', '--watch [true]', 'true to watch files. Defaults to false'
+task "compile", "compile and watch for handlebar template changes", (options) ->
+  watch = options.watch or 'false'
+  
+  rmdir handlebarDestDir
+  
+  js_watcher = chokidar.watch handlebarDir, {persistent: watch.toLowerCase() == 'true'}
+  less_watcher = chokidar.watch lessDir, {persistent: watch.toLowerCase() == 'true'}
+  
+  js_watcher.on "add", (path, stats) ->
+    compileTemplates path
+  js_watcher.on "change", (path, stats) ->
+    compileTemplates path
+  
+  less_watcher.on "add", (path, stats) ->
+    compileLess path
+  less_watcher.on "change", (path, stats) ->
+    compileLess path
+  
+  less_watcher.close()
+  js_watcher.close()

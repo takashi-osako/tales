@@ -1,0 +1,3 @@
+ReportComponentsCollection = Backbone.Collection.extend({
+
+}); 

@@ -1,0 +1,16 @@
+<table id={{elementId}} class='table table-hover' data-target_id={{targetId}}>
+    <thead>
+        <tr>
+            <th>Property</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each styles}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{{f_displayStyle input_type}}}</td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>

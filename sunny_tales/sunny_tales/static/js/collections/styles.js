@@ -1,0 +1,2 @@
+StyleCollection = Backbone.Collection.extend({
+});

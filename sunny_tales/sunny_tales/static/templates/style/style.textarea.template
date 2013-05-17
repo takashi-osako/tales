@@ -1,0 +1,2 @@
+<textarea cols="30" rows="5" id="{{id}}" value="{{value}}" data-css="{{{css}}}">
+</textarea>

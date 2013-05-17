@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>test editor</title>
+
+        <link rel="stylesheet" href="../css/3p/jquery-ui.css" />
+        <link rel="stylesheet" href="../css/3p/bootstrap.min.css" />
+        <link rel="stylesheet" href="../css/3p/bootstrap-responsive.min.css" />
+        <link rel="stylesheet" type="text/css" href="../css/style.css"> 
+    </head>
+    <body>
+        <div id="canvas" class="ui-layout-center"></div>
+        <div class="ui-layout-north">
+        </div>
+        <div id="menu" class="ui-layout-south">
+            <input id="bol-name" placeholder="BOL name" type="text"></input>
+            <input id="bol-trans_ref_no" value='0010001234' type="text"></input>
+            <button class="btn btn-primary" id="save-template">
+                Save
+            </button>
+            <button class="btn btn-primary" id="create-pdf">
+                Create PDF
+            </button>
+        </div>
+        <div id="style" class="ui-layout-east">
+        </div>
+        <div class="ui-layout-west">
+            <div id="toolbox"></div>
+        </div>
+
+        <script src="../js/3p/jquery-1.9.1.min.js" type="text/javascript"></script>
+        <script src="../js/3p/sprintf.min.js" type="text/javascript"></script>
+        <script src="../js/3p/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="../js/3p/jquery.layout-latest.min.js" type="text/javascript"></script>
+        <script src="../js/3p/mustache.js" type="text/javascript"></script>
+        <script src="../js/3p/handlebars.runtime-1.0.rc.1.min.js" type="text/javascript"></script>
+        <script src="../js/3p/underscore.js"></script>
+        <script src="../js/3p/backbone.js"></script>
+        <script src="../js/3p/bootstrap.min.js" type="text/javascript"></script>
+        <script src="../templates_js/toolbox/toolbox.template.js"></script>
+        <script src="../templates_js/style/style.template.js"></script>
+        <script src="../templates_js/style/style.select.template.js"></script>
+        <script src="../templates_js/style/style.checkbox.template.js"></script>
+        <script src="../templates_js/style/style.text.template.js"></script>
+        <script src="../templates_js/style/style.textarea.template.js"></script>
+        <script src="../js/utils/handlebars_utils.js"></script>
+        <script src="../js/models/tool.js" type="text/javascript"></script>
+        <script src="../js/models/tool_menu.js" type="text/javascript"></script>
+        <script src="../js/models/template.js" type="text/javascript"></script>
+        <script src="../js/models/report_component.js" type="text/javascript"></script>
+        <script src="../js/models/style.js" type="text/javascript"></script>
+        <script src="../js/models/pdf.js" type="text/javascript"></script>
+        <script src="../js/collections/report_components.js" type="text/javascript"></script>
+        <script src="../js/collections/styles.js" type="text/javascript"></script>
+        <script src="../js/views/toolbox.js" type="text/javascript"></script>
+        <script src="../js/views/canvas.js" type="text/javascript"></script>
+        <script src="../js/views/save_template.js" type="text/javascript"></script>
+        <script src="../js/views/create_pdf.js" type="text/javascript"></script>
+        <script src="../js/views/style_view.js" type="text/javascript"></script>
+        <script src="../js/collections/tools.js" type="text/javascript"></script>
+        <script src="../js/application.js" type="text/javascript"></script>
+    </body>
+</html>

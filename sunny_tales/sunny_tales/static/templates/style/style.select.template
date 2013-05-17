@@ -1,0 +1,5 @@
+<select id="{{id}}" data-css="{{{css}}}">
+    {{#each selection}}
+    <option {{f_isSelected this ../default ../value}} value="{{this}}">{{this}}</option>
+    {{/each}}
+</select>

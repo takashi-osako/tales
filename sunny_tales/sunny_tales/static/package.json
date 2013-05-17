@@ -1,0 +1,17 @@
+{
+  "name": "sunny_tales",
+  "preferGlobal": true,
+  "version": "0.0.1",
+  "author": "sunny_tales_dev",
+  "description": "sunny_tales precompile handlebars",
+  "dependencies" : {
+    "coffee-script": "",
+    "handlebars": "",
+    "chokidar": "",
+    "path": "",
+    "wrench": "",
+    "exec": "",
+    "flour": "",
+    "less": ""
+  }
+}
