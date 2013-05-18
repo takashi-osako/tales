@@ -33,3 +33,8 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# node-js
+node_modules/
+templates_js/
+style.css
