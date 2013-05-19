@@ -13,7 +13,6 @@ from bson import json_util
 import json
 from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest
 from sunny_tales.api.v0.template.exceptions import InvalidPayloadError
-from cloudy_tales.utils.exporter import export
 from cloudy_tales.data_fusion.translate import combine_template_with_data
 from cloudy_tales.database.connectionManager import DbConnectionManager
 from cloudy_tales.database.collections.base import BaseCollection
@@ -109,8 +108,6 @@ def create_new_template(request):
         return HTTPBadRequest()
 
     document['metadata'] = __generate_metadata(doc_id)
-    # Temporary output to /tmp/sunny
-    export(document)
 
     with DbConnectionManager() as connection:
         templates = Templates(connection)

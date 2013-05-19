@@ -7,8 +7,6 @@ import unittest
 from cloudy_tales.data_fusion.translate import generate_templated_json,\
     combine_template_with_data
 from cloudy_tales.database.tests.UnitTestWithMongoDB import UnitTestWithMongoDB
-from cloudy_tales.database.connectionManager import DbConnectionManager
-from cloudy_tales.database.collections.base import BaseCollection
 
 
 class TestTranslate(UnitTestWithMongoDB):
@@ -42,7 +40,7 @@ class TestTranslate(UnitTestWithMongoDB):
         # prepopulate test data
         data = {'color': 'red', 'name': 'rose'}
 
-        results = combine_template_with_data(template, data, write_to_file=False)
+        results = combine_template_with_data(template, data)
         self.assertEquals(results, 'Flower rose is red')
 
 
