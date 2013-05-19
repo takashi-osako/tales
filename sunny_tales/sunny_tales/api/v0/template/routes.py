@@ -129,7 +129,11 @@ def create_pdf(request):
     if uuid:
         with DbConnectionManager() as connection:
             templates = Templates(connection)
-            result = templates.find_by_id(uuid)
+            # Since we archive revisions of templates
+            # Get the current one
+            current = templates.find_current(uuid)
+            # Still get the original (parent) revision to return to FE
+            parent = templates.find_by_id(uuid)
 
     if trans_ref_no:
         with DbConnectionManager() as connection:
@@ -138,12 +142,12 @@ def create_pdf(request):
             data = collection.find_one(key_data)
 
     # Calls data fusion service to template, if any, writes to /tmp/template.json
-    result = combine_template_with_data(template=result, data=data)
+    result = combine_template_with_data(template=current, data=data)
 
     # publish the templated result to the queue to create pdf
     producer.publish(result)
 
-    return result
+    return __convert_mongo_bson_to_json(parent)
 
 
 def __get_payload(request):
