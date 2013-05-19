@@ -6,6 +6,7 @@ requires = [
     'zope.interface',
     'Ming',  # For unit test'
     'pystache',
+    'kombu',
 ]
 
 setup(name='cloudy_tales',

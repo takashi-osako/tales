@@ -20,7 +20,6 @@ def combine_template_with_data(template, data, write_to_file=True):
     '''
     Given template data, mustache it
     '''
-
     template = json.dumps(template, default=json_util.default)
     generated = generate_templated_json(template, data)
     generated = json.loads(generated)

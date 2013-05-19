@@ -17,6 +17,7 @@ from cloudy_tales.utils.exporter import export
 from cloudy_tales.data_fusion.translate import combine_template_with_data
 from cloudy_tales.database.connectionManager import DbConnectionManager
 from cloudy_tales.database.collections.base import BaseCollection
+from cloudy_tales.queue import producer
 
 
 @view_config(route_name='toolbox', request_method='GET', renderer='json')
@@ -130,15 +131,19 @@ def create_pdf(request):
             templates = Templates(connection)
             result = templates.find_by_id(uuid)
 
-            # Calls data fusion service to template, if any, writes to /tmp/template.json
-
     if trans_ref_no:
         with DbConnectionManager() as connection:
             collection = BaseCollection(connection, 'Transheader')
             key_data = {'key_data.trans_ref_no': trans_ref_no}
             data = collection.find_one(key_data)
-    combine_template_with_data(template=result, data=data)
-    return __convert_mongo_bson_to_json(result)
+
+    # Calls data fusion service to template, if any, writes to /tmp/template.json
+    result = combine_template_with_data(template=result, data=data)
+
+    # publish the templated result to the queue to create pdf
+    producer.publish(result)
+
+    return result
 
 
 def __get_payload(request):
