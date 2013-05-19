@@ -11,9 +11,13 @@ import json
 from cloudy_tales.data_fusion.translate import combine_template_with_data
 from cloudy_tales.utils.getTemplate import get_template
 from cloudy_tales.database.connectionManager import DbConnectionManager
+from cloudy_tales.queue import producer
 
 
 def load_data_from_flatfile(filename):
+    '''
+    Flat file is given, convert it to json
+    '''
     flat_contents = read_file(filename)
     for flat_content in flat_contents:
         # read first 20 chracters as data name
@@ -36,9 +40,13 @@ def load_data_from_flatfile(filename):
         # if data is transheader, then aggregate data for Data Fusion Service
         if data_name == "Transheader":
             json_format = aggregate_for_transaction(json_format)
-            # TODO: TEMP:  template json from flat file data
+            # TODO: TEMP:  get a template with the name 'test'
             template = get_template('test')
-            combine_template_with_data(template=template, data=json_format, write_to_file=True)
+            combined = combine_template_with_data(template=template, data=json_format)
+
+            # publish the templated result to the queue to create pdf
+            if combined is not None:
+                producer.publish(combined)
 
         print("#####")
         print(json.dumps(json_format))
