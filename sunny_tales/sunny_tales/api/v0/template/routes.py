@@ -123,20 +123,17 @@ def create_pdf(request):
     uuid = request.matchdict['uuid']
     trans_ref_no = request.matchdict['trans_ref_no']
 
-    if uuid:
-        with DbConnectionManager() as connection:
-            templates = Templates(connection)
-            # Since we archive revisions of templates
-            # Get the current one
-            current = templates.find_current(uuid)
-            # Still get the original (parent) revision to return to FE
-            parent = templates.find_by_id(uuid)
+    with DbConnectionManager() as connection:
+        templates = Templates(connection)
+        # Since we archive revisions of templates
+        # Get the current one
+        current = templates.find_current(uuid)
+        # Still get the original (parent) revision to return to FE
+        parent = templates.find_by_id(uuid)
 
-    if trans_ref_no:
-        with DbConnectionManager() as connection:
-            collection = BaseCollection(connection, 'Transheader')
-            key_data = {'key_data.trans_ref_no': trans_ref_no}
-            data = collection.find_one(key_data)
+        collection = BaseCollection(connection, 'Transheader')
+        key_data = {'key_data.trans_ref_no': trans_ref_no}
+        data = collection.find_one(key_data)
 
     # Calls data fusion service to template, if any, writes to /tmp/template.json
     result = combine_template_with_data(template=current, data=data)

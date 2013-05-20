@@ -105,9 +105,11 @@ class TestRoutes(UnitTestWithMongoDB):
         results = save_custom_template(self.__request)
         self.assertIsInstance(results, HTTPBadRequest)
 
-    def test_create_template(self):
+    def test_create_pdf_with_no_transheader(self):
         self.__request.matchdict['uuid'] = 123
-        # TODO
+        self.__request.matchdict['trans_ref_no'] = 234
+        self.__template.insert({'_id': 123, 'components': {'line': 'value'}})
+        # TODO: how to run UT without rabbitmq
 
 
 if __name__ == "__main__":
