@@ -7,6 +7,7 @@ requires = [
     'Ming',  # For unit test'
     'pystache',
     'kombu',
+    'librabbitmq',
 ]
 
 setup(name='cloudy_tales',
