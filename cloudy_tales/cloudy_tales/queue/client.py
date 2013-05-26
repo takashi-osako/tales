@@ -10,7 +10,7 @@ import uuid
 class RpcClient(object):
     def __init__(self):
         self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-
+        self.connection.add_timeout(15, self.on_timeout)
         self.channel = self.connection.channel()
 
         result = self.channel.queue_declare(exclusive=True)
@@ -21,6 +21,9 @@ class RpcClient(object):
     def on_response(self, ch, method, props, body):
         if self.corr_id == props.correlation_id:
             self.response = body
+
+    def on_timeout(self):
+        self.response = ""
 
     def call(self, msg):
         self.response = None
