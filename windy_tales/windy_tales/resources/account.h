@@ -1,8 +1,10 @@
 struct Account{
-    char supplier_no[10],
-    customer_no[10],
-    account_no[10],
-    account_name[30],
+    struct keys {
+        char supplier_no[10],
+        customer_no[10],
+        account_no[10];
+    } keys;
+    char account_name[30],
     name1[25],
     name2[25],
     address1[25],

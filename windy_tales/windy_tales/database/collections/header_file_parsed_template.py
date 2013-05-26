@@ -9,7 +9,9 @@ class HeaderfileParsedTemplate(BaseCollection):
 
     def save(self, data_name, data, version, currentDatetime=datetime.datetime.utcnow()):
         uuid = str(uuid4())
-        document = {"_id": uuid, "name": data_name, "version": version, "update": currentDatetime, "metadata": data}
+        document = {"_id": uuid, "name": data_name, "version": version, "update": currentDatetime}
+        for key in data.keys():
+            document[key] = data[key]
         return BaseCollection.save(self, document)
 
     def find_by_name(self, name):

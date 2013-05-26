@@ -11,19 +11,24 @@ from windy_tales.exceptions.exceptions import GenericCollectionException
 
 class GenericCollection(BaseCollection):
 
-    def __init__(self, connection, name):
+    def __init__(self, connection, template):
+        name = template['name']
+        __keys = template['keys']
+        self.__keys = []
+        for key in __keys:
+            for field in key.keys():
+                self.__keys.append(field)
         if name is None or name == "":
             raise GenericCollectionException("name is missing")
         super(GenericCollection, self).__init__(connectionManager=connection, name=name)
 
-    def save(self, data, key_data=None, currentDatetime=datetime.datetime.utcnow()):
-        if key_data is None:
-            key_data = {}
-            for k in self.get_keys():
-                key_data[k] = data[self.getName()][k]
+    def save(self, data, currentDatetime=datetime.datetime.utcnow()):
+        key_data = {}
+        for k in self.get_keys():
+            key_data[k] = data[k]
 
         uuid = str(uuid4())
-        document = {"_id": uuid, "update": currentDatetime, "metadata": data[super(GenericCollection, self).getName()]}
+        document = {"_id": uuid, "update": currentDatetime, "fields": data}
         # add data_key in document
         if key_data:
             document['key_data'] = key_data
@@ -38,10 +43,10 @@ class GenericCollection(BaseCollection):
             key_data['key_data.' + k] = keys[k]
         doc = super(GenericCollection, self).find_one(key_data)
         if doc:
-            return doc['metadata']
+            return doc['fields']
 
     def get_keys(self):
         '''
         return fieldname that uses for the key
         '''
-        return []
+        return self.__keys

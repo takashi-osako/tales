@@ -1,8 +1,10 @@
 struct Terminal {
-    char term_id[7],
-         name[25],
-         addr1[25],
-         city[20],
-         state[2],
-         zip[5];
+    struct keys {
+        char term_id[7];
+    };
+    char name[25],
+    addr1[25],
+    city[20],
+    state[2],
+    zip[5];
 };

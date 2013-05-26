@@ -39,8 +39,7 @@ class HeaderParser():
             json = headerFileParsedTemplate.find_by_name(name)
             if json is None:
                 raise HeaderFileNotFound(name)
-            result = json.get('metadata')
-        return result
+        return json
 
     @staticmethod
     def __parse_c_header_file(file_name):
@@ -79,7 +78,7 @@ class HeaderParser():
         elif node_type.declname:
             struct_name = node_type.declname
 
-        result[struct_name] = []
+        result[struct_name] = {"fields": [], "keys": []}
         for decl in node_type.decls:
             decl_type = decl.type
             if type(decl_type) is ArrayDecl:
@@ -88,7 +87,7 @@ class HeaderParser():
                 __name = decl_type.type.declname
                 if type(__type) is IdentifierType:
                     __format = __type.names[0]
-                    result[struct_name].append({__name: __size})
+                    result[struct_name]['fields'].append({__name: __size})
                 elif type(__type) is Struct:
                     struct_result = HeaderParser.__parse_ast_to_json(decl_type.type)
                     # Note that there should only have one key
@@ -97,13 +96,18 @@ class HeaderParser():
                     for i in range(__size):
                         # Make a deep copy of the json object
                         __list.append(copy.deepcopy(struct_result[__name]))
-                    result[struct_name].append({__name: __list})
+                    result[struct_name]['fields'].append({__name: __list})
             elif type(decl_type) is TypeDecl:
                 if type(decl_type.type) is Struct:
                     struct_result = HeaderParser.__parse_ast_to_json(decl_type)
                     # Note that there should only have one key
                     __name = struct_result.keys()[0]
-                    result[struct_name].append({__name: struct_result[__name]})
+                    # if __name is key, then struct_result is key
+                    if __name == "keys":
+                        result[struct_name]['fields'] += struct_result[__name]['fields']
+                        result[struct_name]['keys'] += struct_result[__name]['fields']
+                    else:
+                        result[struct_name]['fields'].append({__name: struct_result[__name]['fields']})
                 elif type(decl_type.type) is IdentifierType:
                     # datatypes such as int falls into here
                     pass

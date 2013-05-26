@@ -16,6 +16,7 @@ from cloudy_tales.data_fusion.translate import generate_templated_json
 from windy_tales.utils.data_loader import load_data_from_flatfile
 from windy_tales.database.collections.generic_collection import GenericCollection
 from cloudy_tales.database.connectionManager import DbConnectionManager
+from cloudy_tales.database.collections.base import BaseCollection
 
 watcher = Watcher('/tmp/lz')
 
@@ -58,14 +59,15 @@ def load_template():
         for header_file in header_files:
             file_name = os.path.join(here, 'resources', header_file)
             json = HeaderParser.generate_tempate(file_name)
-            headerFileParsedTemplate.save(data_name=json.keys()[0], data=json, version=1)
+            data_name = json.keys()[0]
+            headerFileParsedTemplate.save(data_name=data_name, data=json[data_name], version=1)
 
 
 def clear_data():
     targets = ['Supplier', 'Customer', 'Account', 'Terminal', 'Transheader']
     with DbConnectionManager() as connection:
         for target in targets:
-            colleciton = GenericCollection(connection=connection, name=target)
+            colleciton = BaseCollection(connectionManager=connection, name=target)
             colleciton.remove()
 
 

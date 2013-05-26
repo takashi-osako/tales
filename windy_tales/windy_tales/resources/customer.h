@@ -1,7 +1,9 @@
 struct Customer{
-    char supplier_no[10],
-    customer_no[10],
-    customer_name[30],
+    struct keys {
+        char supplier_no[10],
+        customer_no[10];
+    } keys;
+    char customer_name[30],
     name1[25],
     name2[25],
     address1[25],

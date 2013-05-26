@@ -3,18 +3,15 @@ Created on May 2, 2013
 
 @author: dorisip
 '''
-from windy_tales.flat_file.header_parser import HeaderParser
+import copy
 
 
-def flat_to_json(flat_name, flat_content):
+def flat_to_json(template, flat_content):
     '''
     Reads flat file, and returns flat file content to json
     '''
-
-    # Get the Header Template
-    template = HeaderParser.get_template(flat_name)
-
-    (rtn_result, rtn_content) = __fill_values_with_content(template, flat_content)
+    fields = copy.deepcopy(template['fields'])
+    (rtn_result, rtn_content) = __fill_values_with_content(fields, flat_content)
 
     if len(rtn_content) != 0:
         print ("non zero flat file content. Remaining Content: ", rtn_content)

@@ -12,6 +12,8 @@ from cloudy_tales.data_fusion.translate import combine_template_with_data
 from cloudy_tales.utils.getTemplate import get_template
 from cloudy_tales.database.connectionManager import DbConnectionManager
 from cloudy_tales.queue import producer
+from windy_tales.flat_file.header_parser import HeaderParser
+import copy
 
 
 def load_data_from_flatfile(filename):
@@ -23,18 +25,17 @@ def load_data_from_flatfile(filename):
         # read first 20 chracters as data name
         data_name = flat_content[0:20].strip()
         content = flat_content[20:]
-        json_format = flat_to_json(data_name, content)
+
+        # Get the Header Template
+        template = HeaderParser.get_template(data_name)
+
+        json_format = flat_to_json(template, content)
 
         with DbConnectionManager() as connection:
             # find data collection
-            try:
-                collection_module = __import__('windy_tales.database.collections.' + data_name.lower(), globals(), locals(), [data_name])
-                if collection_module:
-                    genericCollection = getattr(collection_module, data_name)(connection)
-                else:
-                    genericCollection = GenericCollection(connection, data_name)
-            except:
-                genericCollection = GenericCollection(connection, data_name)
+
+            genericCollection = GenericCollection(connection, template)
+
             doc_id = genericCollection.save(json_format)
 
         # if data is transheader, then aggregate data for Data Fusion Service
