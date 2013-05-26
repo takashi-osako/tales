@@ -17,6 +17,7 @@ from cloudy_tales.data_fusion.translate import combine_template_with_data
 from cloudy_tales.database.connectionManager import DbConnectionManager
 from cloudy_tales.database.collections.base import BaseCollection
 from cloudy_tales.queue import producer
+from pyramid.response import Response
 
 
 @view_config(route_name='toolbox', request_method='GET', renderer='json')
@@ -139,9 +140,10 @@ def create_pdf(request):
     result = combine_template_with_data(template=current, data=data)
 
     # publish the templated result to the queue to create pdf
-    producer.publish(result)
+    pdf_content = producer.publish(result)
 
-    return __convert_mongo_bson_to_json(parent)
+    #return __convert_mongo_bson_to_json(parent)
+    return Response(body=pdf_content, content_type='application/pdf')
 
 
 def __get_payload(request):
