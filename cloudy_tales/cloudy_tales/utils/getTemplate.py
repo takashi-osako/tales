@@ -5,7 +5,7 @@ Created on May 12, 2013
 '''
 from cloudy_tales.database.connectionManager import DbConnectionManager
 from cloudy_tales.database.collections.base import BaseCollection
-from cloudy_tales.exceptions.templateNotFound import TemplateNotFound
+from cloudy_tales.exceptions.exceptions import TemplateNotFound
 
 
 def get_template(template_name):

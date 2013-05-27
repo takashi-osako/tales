@@ -7,7 +7,6 @@ requires = [
     'Ming',  # For unit test'
     'pystache',
     'pika',
-    'kombu',
     'librabbitmq',
 ]
 

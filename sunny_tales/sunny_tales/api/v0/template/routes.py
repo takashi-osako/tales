@@ -16,8 +16,9 @@ from sunny_tales.api.v0.template.exceptions import InvalidPayloadError
 from cloudy_tales.data_fusion.translate import combine_template_with_data
 from cloudy_tales.database.connectionManager import DbConnectionManager
 from cloudy_tales.database.collections.base import BaseCollection
-from cloudy_tales.queue import producer
 from pyramid.response import Response
+from cloudy_tales.queue.client import publish
+from sunny_tales.exceptions.httpexceptions import SunnyHTTPRequestTimeout
 
 
 @view_config(route_name='toolbox', request_method='GET', renderer='json')
@@ -140,7 +141,11 @@ def create_pdf(request):
     result = combine_template_with_data(template=current, data=data)
 
     # publish the templated result to the queue to create pdf
-    pdf_content = producer.publish(result)
+    pdf_content = publish(result)
+    
+    # Timeout occurred if pdf_content is None
+    if not pdf_content:
+        raise SunnyHTTPRequestTimeout() 
 
     #return __convert_mongo_bson_to_json(parent)
     return Response(body=pdf_content, content_type='application/pdf')

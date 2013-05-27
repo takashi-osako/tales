@@ -5,9 +5,14 @@ Created on May 25, 2013
 '''
 import pika
 import uuid
+import json
+from cloudy_tales.exceptions.exceptions import RPCTimeout
 
 
 class RpcClient(object):
+    '''
+    Client that makes RPC call to rabbitmq to get pdf file content
+    '''
     def __init__(self):
         self.connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
         self.connection.add_timeout(15, self.on_timeout)
@@ -18,14 +23,17 @@ class RpcClient(object):
 
         self.channel.basic_consume(self.on_response, no_ack=True, queue=self.callback_queue)
 
+    def close_connection(self):
+        self.connection.close()
+
     def on_response(self, ch, method, props, body):
         if self.corr_id == props.correlation_id:
             self.response = body
 
     def on_timeout(self):
-        self.response = ""
+        raise RPCTimeout()
 
-    def call(self, msg):
+    def publish(self, msg):
         self.response = None
         self.corr_id = str(uuid.uuid4())
         self.channel.basic_publish(exchange='',
@@ -38,5 +46,14 @@ class RpcClient(object):
 
 
 def publish(msg):
-    rpc = RpcClient()
-    return rpc.call(msg)
+    '''
+    Publish the message to queue and blocks until results are returned or timeout has occurrred
+    '''
+    try:
+        rpc = RpcClient()
+        results = rpc.publish(json.dumps(msg))
+    except RPCTimeout:
+        results = None
+    finally:
+        rpc.close_connection()
+    return results
