@@ -17,6 +17,7 @@ from windy_tales.utils.data_loader import load_data_from_flatfile
 from windy_tales.database.collections.generic_collection import GenericCollection
 from cloudy_tales.database.connectionManager import DbConnectionManager
 from cloudy_tales.database.collections.base import BaseCollection
+import json
 
 watcher = Watcher('/tmp/lz')
 
@@ -27,6 +28,7 @@ def main():
     '''
     # initialize mongodb
     create_db_client(db_name='DUMBO')
+    load_association()
     load_template()
     clear_data()
     load_flatfile_data()
@@ -79,6 +81,15 @@ def load_flatfile_data():
         print(file_name)
         load_data_from_flatfile(file_name)
 
+def load_association():
+    association_files = ['transheader_association.json']
+    here = os.path.abspath(os.path.dirname(__file__))
+    with DbConnectionManager() as connection:
+        for association_file in association_files:
+            colleciton = BaseCollection(connectionManager=connection, name="association")
+            colleciton.remove()
+            with open(os.path.join(here, 'resources', association_file),'r') as f:
+                colleciton.save(json.loads(f.read()))
 
 if __name__ == '__main__':
     main()

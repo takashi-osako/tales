@@ -1,0 +1,18 @@
+{
+	"_id": "4f864326-c4db-11e2-9834-3c07546832b4",
+	"name": "Transheader",
+	"tables": {
+		"Account": {
+			"supplier_no": "supplier_no",
+			"cust_no": "cust_no",
+			"acct_no": "acct_no"
+		},
+		"Customer": {
+			"supplier_no": "supplier_no",
+			"cust_no": "cust_no"
+		},
+		"Supplier": {
+			"supplier_no": "supplier_no"
+		}
+	}
+}
