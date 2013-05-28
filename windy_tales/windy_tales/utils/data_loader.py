@@ -11,9 +11,8 @@ import json
 from cloudy_tales.data_fusion.translate import combine_template_with_data
 from cloudy_tales.utils.getTemplate import get_template
 from cloudy_tales.database.connectionManager import DbConnectionManager
-from cloudy_tales.queue import producer
 from windy_tales.flat_file.header_parser import HeaderParser
-import copy
+from cloudy_tales.queue.client import publish
 
 
 def load_data_from_flatfile(filename):
@@ -47,7 +46,7 @@ def load_data_from_flatfile(filename):
 
             # publish the templated result to the queue to create pdf
             if combined is not None:
-                producer.publish(combined)
+                publish(combined)
 
         print("#####")
         print(json.dumps(json_format))

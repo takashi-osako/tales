@@ -4,12 +4,12 @@
 	"tables": {
 		"Account": {
 			"supplier_no": "supplier_no",
-			"cust_no": "cust_no",
-			"acct_no": "acct_no"
+			"customer_no": "customer_no",
+			"account_no": "account_no"
 		},
 		"Customer": {
 			"supplier_no": "supplier_no",
-			"cust_no": "cust_no"
+			"customer_no": "customer_no"
 		},
 		"Supplier": {
 			"supplier_no": "supplier_no"
