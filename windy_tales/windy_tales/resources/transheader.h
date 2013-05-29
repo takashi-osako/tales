@@ -7,7 +7,7 @@ struct Transheader {
          folio_no[2];
          struct keys {
              char trans_ref_no[10];
-         };
+         }keys;
          char term_id[7],
          load_date[6],
          load_time[4],

@@ -6,13 +6,13 @@ Created on May 11, 2013
 from windy_tales.utils.utils import read_file
 from windy_tales.flat_file.parser import flat_to_json
 from windy_tales.database.collections.generic_collection import GenericCollection
-from windy_tales.data_aggregator.transaction_aggregator import aggregate_for_transaction
 import json
 from cloudy_tales.data_fusion.translate import combine_template_with_data
 from cloudy_tales.utils.getTemplate import get_template
 from cloudy_tales.database.connectionManager import DbConnectionManager
 from windy_tales.flat_file.header_parser import HeaderParser
 from cloudy_tales.queue.client import publish
+from cloudy_tales.data_aggregator.transaction_aggregator import aggregate_for_transaction
 
 
 def load_data_from_flatfile(filename):
@@ -28,7 +28,7 @@ def load_data_from_flatfile(filename):
         # Get the Header Template
         template = HeaderParser.get_template(data_name)
 
-        json_format = flat_to_json(template, content)
+        json_format = flat_to_json(template['fields'], content)
 
         with DbConnectionManager() as connection:
             # find data collection

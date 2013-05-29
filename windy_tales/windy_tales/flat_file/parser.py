@@ -10,8 +10,8 @@ def flat_to_json(template, flat_content):
     '''
     Reads flat file, and returns flat file content to json
     '''
-    fields = copy.deepcopy(template['fields'])
-    (rtn_result, rtn_content) = __fill_values_with_content(fields, flat_content)
+    template = copy.deepcopy(template)
+    (rtn_result, rtn_content) = __fill_values_with_content(template, flat_content)
 
     if len(rtn_content) != 0:
         print ("non zero flat file content. Remaining Content: ", rtn_content)

@@ -19,6 +19,7 @@ from cloudy_tales.database.collections.base import BaseCollection
 from pyramid.response import Response
 from cloudy_tales.queue.client import publish
 from sunny_tales.exceptions.httpexceptions import SunnyHTTPRequestTimeout
+from cloudy_tales.data_aggregator.transaction_aggregator import aggregate_for_transaction
 
 
 @view_config(route_name='toolbox', request_method='GET', renderer='json')
@@ -138,7 +139,7 @@ def create_pdf(request):
         data = collection.find_one(key_data)
 
     # Calls data fusion service to template, if any, writes to /tmp/template.json
-    result = combine_template_with_data(template=current, data=data)
+    result = combine_template_with_data(template=current, data=aggregate_for_transaction(data['fields']))
 
     # publish the templated result to the queue to create pdf
     pdf_content = publish(result)

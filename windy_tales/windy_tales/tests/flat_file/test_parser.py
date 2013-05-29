@@ -28,32 +28,35 @@ class TestParser(UnitTestWithMongoDB):
         here = os.path.abspath(os.path.dirname(__file__))
         file_name = os.path.join(here, '..', 'resources', 'sample.flat')
         flat_content = read_file(file_name)
-        value = flat_to_json('sample', flat_content[0])
+        template = HeaderParser.get_template('sample')
+        value = flat_to_json(template['book']['fields'], flat_content[0])
         self.assertIsNotNone(value)
 
-        self.assertEquals(value['book']['title'], 'Book Name')
-        self.assertEquals(value['book']['description'], 'my desc')
-        self.assertEquals(value['book']['ack'][0]['name'], 'Alex')
-        self.assertEquals(value['book']['ack'][1]['name'], 'Ben')
+        self.assertEquals(value['title'], 'Book Name')
+        self.assertEquals(value['description'], 'my desc')
+        self.assertEquals(value['ack'][0]['name'], 'Alex')
+        self.assertEquals(value['ack'][1]['name'], 'Ben')
 
     def test_flat_file_to_json_with_truncated_flat_file(self):
         here = os.path.abspath(os.path.dirname(__file__))
         file_name = os.path.join(here, '..', 'resources', 'truncated_sample.flat')
         flat_content = read_file(file_name)
-        value = flat_to_json('sample', flat_content[0])
-        self.assertEquals(value['book']['title'], 'MyBook')
-        self.assertEquals(value['book']['description'], '')
-        self.assertEquals(value['book']['ack'][0]['name'], '')
-        self.assertEquals(value['book']['ack'][1]['name'], '')
+        template = HeaderParser.get_template('sample')
+        value = flat_to_json(template['book']['fields'], flat_content[0])
+        self.assertEquals(value['title'], 'MyBook')
+        self.assertEquals(value['description'], '')
+        self.assertEquals(value['ack'][0]['name'], '')
+        self.assertEquals(value['ack'][1]['name'], '')
 
     def test_flat_file_to_json_with_extra_characters_in_flat(self):
         here = os.path.abspath(os.path.dirname(__file__))
         file_name = os.path.join(here, '..', 'resources', 'extra_sample.flat')
         flat_content = read_file(file_name)
-        value = flat_to_json('sample', flat_content[0])
+        template = HeaderParser.get_template('sample')
+        value = flat_to_json(template['book']['fields'], flat_content[0])
 
-        self.assertEquals(value['book']['ack'][0]['name'], 'Alex')
-        self.assertEquals(value['book']['ack'][1]['name'], 'Benjam')
+        self.assertEquals(value['ack'][0]['name'], 'Alex')
+        self.assertEquals(value['ack'][1]['name'], 'Benjam')
 
     def test_convert_to_unordered_json_simple(self):
         data = {'one': [{'two': 'three'}, {'four': 'five'}]}

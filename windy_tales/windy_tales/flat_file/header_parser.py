@@ -95,7 +95,7 @@ class HeaderParser():
                     __list = []
                     for i in range(__size):
                         # Make a deep copy of the json object
-                        __list.append(copy.deepcopy(struct_result[__name]))
+                        __list.append(copy.deepcopy(struct_result[__name]['fields']))
                     result[struct_name]['fields'].append({__name: __list})
             elif type(decl_type) is TypeDecl:
                 if type(decl_type.type) is Struct:
