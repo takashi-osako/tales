@@ -81,6 +81,7 @@ def load_flatfile_data():
         print(file_name)
         load_data_from_flatfile(file_name)
 
+
 def load_association():
     association_files = ['transheader_association.json']
     here = os.path.abspath(os.path.dirname(__file__))
@@ -88,7 +89,7 @@ def load_association():
         for association_file in association_files:
             colleciton = BaseCollection(connectionManager=connection, name="association")
             colleciton.remove()
-            with open(os.path.join(here, 'resources', association_file),'r') as f:
+            with open(os.path.join(here, 'resources', association_file), 'r') as f:
                 colleciton.save(json.loads(f.read()))
 
 if __name__ == '__main__':

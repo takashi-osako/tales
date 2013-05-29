@@ -29,5 +29,4 @@ def aggregate_for_transaction(data):
                         aggrigating_collection = BaseCollection(connectionManager=connector1, name=table_name)
                         result = aggrigating_collection.find_one(aggrigating_document)
                         data[table_name] = result['fields']
-            
     return data

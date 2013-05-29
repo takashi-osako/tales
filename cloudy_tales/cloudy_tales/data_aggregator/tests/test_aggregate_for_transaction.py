@@ -75,25 +75,12 @@ class TestAggregateForTransaction(UnitTestWithMongoDB):
             association = BaseCollection(connectionManager=connection, name='association')
             association_data = {'name': 'Transheader',
                                 "tables": {
-                                           'Supplier': {
-                                                     'supplier_no': 'supplier_no'
-                                                     },
-                                           'Customer': {
-                                                     'supplier_no': 'supplier_no',
-                                                     'customer_no': 'customer_no'
-                                                     },
-                                           'Account': {
-                                                    'supplier_no': 'supplier_no',
-                                                    'customer_no': 'customer_no',
-                                                    'account_no': 'account_no'
-                                                    },
-                                           'Terminal': {
-                                                     'term_id': 'term_id'  
-                                                    }
-                                           }
+                                        'Supplier': {'supplier_no': 'supplier_no'},
+                                        'Customer': {'supplier_no': 'supplier_no', 'customer_no': 'customer_no'},
+                                        'Account': {'supplier_no': 'supplier_no', 'customer_no': 'customer_no', 'account_no': 'account_no'},
+                                        'Terminal': {'term_id': 'term_id'}}
                                 }
             association.save(association_data)
-            
 
         data = aggregate_for_transaction(transaction)
         self.assertEqual('name1', data['Supplier']['name'])

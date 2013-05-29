@@ -143,10 +143,10 @@ def create_pdf(request):
 
     # publish the templated result to the queue to create pdf
     pdf_content = publish(result)
-    
+
     # Timeout occurred if pdf_content is None
     if not pdf_content:
-        raise SunnyHTTPRequestTimeout() 
+        raise SunnyHTTPRequestTimeout()
 
     #return __convert_mongo_bson_to_json(parent)
     return Response(body=pdf_content, content_type='application/pdf')
