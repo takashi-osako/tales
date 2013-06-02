@@ -23,8 +23,8 @@ Tool = Backbone.Model.extend({
 
 		j_htmlObject.appendTo(wrapper);
 		wrapper.appendTo(close_x)
-
+		j_htmlObject = $('<div>').append(close_x.clone()).html()
 		//j_htmlObject = $("<div><img id=close_x src='/static/png/glyphicons_197_remove.png' style='position: absolute;display:none;'></div>").appendTo($(wrapper).clone()).html();
-		this.set("html", close_x);
+		this.set("html", j_htmlObject);
 	}
 });
