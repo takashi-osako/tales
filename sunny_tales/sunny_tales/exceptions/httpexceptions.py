@@ -3,7 +3,7 @@ Created on May 26, 2013
 
 @author: dorisip
 '''
-from pyramid.httpexceptions import HTTPException, HTTPRequestTimeout
+from pyramid.httpexceptions import HTTPException, HTTPServiceUnavailable
 import json
 
 
@@ -19,6 +19,6 @@ class SunnyHTTPException(HTTPException):
         super(SunnyHTTPException, self).__init__(**prepare_exception_response(msg))
 
 
-class SunnyHTTPRequestTimeout(HTTPRequestTimeout):
+class SunnyHTTPServiceUnavailable(HTTPServiceUnavailable):
     def __init__(self, msg='Timeout Occurred'):
-        super(SunnyHTTPRequestTimeout, self).__init__(**prepare_exception_response(msg))
+        super(SunnyHTTPServiceUnavailable, self).__init__(**prepare_exception_response(msg))
