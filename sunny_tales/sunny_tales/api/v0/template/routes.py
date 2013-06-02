@@ -11,7 +11,8 @@ import uuid
 import datetime
 from bson import json_util
 import json
-from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest
+from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest,\
+    HTTPRequestTimeout
 from sunny_tales.api.v0.template.exceptions import InvalidPayloadError
 from cloudy_tales.data_fusion.translate import combine_template_with_data
 from cloudy_tales.database.connectionManager import DbConnectionManager
@@ -146,7 +147,10 @@ def create_pdf(request):
 
     # Timeout occurred if pdf_content is None
     if not pdf_content:
-        raise SunnyHTTPRequestTimeout()
+        # There seems to be a problem in FF where in goes into an infinite loop
+        #return SunnyHTTPRequestTimeout()
+        msg = {'err': 'pdf timedout'}
+        return Response(body=json.dumps(msg), content_type='application/json')
 
     #return __convert_mongo_bson_to_json(parent)
     return Response(body=pdf_content, content_type='application/pdf')
