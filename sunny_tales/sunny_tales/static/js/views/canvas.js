@@ -56,10 +56,15 @@ CanvasView = Backbone.View.extend({
         });
     },
     events : {
+    	"click .close_x": "removeComponent",
         "click .report-component" : "updateStyleView",
         "resize .report-component" : "resize",
         "mouseenter .report-component" : "growBox",
         "mouseleave .report-component" : "resetGrowBox"
+    },
+    removeComponent: function(e) {
+    	this.b_styleCollection.reset();
+    	$('#'+e.currentTarget.parentNode.id).remove()
     },
     growBox : function(e) {
         var targetDiv = $("#" + e.currentTarget.id)
@@ -71,23 +76,26 @@ CanvasView = Backbone.View.extend({
         $('#'+e.currentTarget.id+' #close_x').hide()
     },
     updateStyleView : function(e) {
-        this.b_styleCollection.reset();
-        var b_myModel = this.b_components.get(e.currentTarget.id);
-        // For the case of deletes
-        if (b_myModel) {
-            // Get the style of the tool
-            var b_commonStyle = this.b_model_toolMenu.get("common_style");
-            var b_commonStyleModel = new StyleModel(b_myModel, b_commonStyle);
-            b_commonStyleModel.set("targetId", $(e.currentTarget).attr("id"));
-            b_commonStyleModel.set("elementId", "commonStyle");
-            this.b_styleCollection.add(b_commonStyleModel);
-
-            var b_styleOfTool = this.b_model_toolMenu.get("tools").get($(e.currentTarget).data("id")).get("style");
-            var b_styleModel = new StyleModel(b_myModel, b_styleOfTool);
-            b_styleModel.set("targetId", $(e.currentTarget).attr("id"));
-            b_styleModel.set("elementId", "styleOfTool");
-            this.b_styleCollection.add(b_styleModel);
-        }
+    	//this makes sure a node has not removed by 'removeComponent'.
+    	if (e.currentTarget.parentNode !== null) {
+	        this.b_styleCollection.reset();
+	        var b_myModel = this.b_components.get(e.currentTarget.id);
+	        // For the case of deletes
+	        if (b_myModel) {
+	            // Get the style of the tool
+	            var b_commonStyle = this.b_model_toolMenu.get("common_style");
+	            var b_commonStyleModel = new StyleModel(b_myModel, b_commonStyle);
+	            b_commonStyleModel.set("targetId", $(e.currentTarget).attr("id"));
+	            b_commonStyleModel.set("elementId", "commonStyle");
+	            this.b_styleCollection.add(b_commonStyleModel);
+	
+	            var b_styleOfTool = this.b_model_toolMenu.get("tools").get($(e.currentTarget).data("id")).get("style");
+	            var b_styleModel = new StyleModel(b_myModel, b_styleOfTool);
+	            b_styleModel.set("targetId", $(e.currentTarget).attr("id"));
+	            b_styleModel.set("elementId", "styleOfTool");
+	            this.b_styleCollection.add(b_styleModel);
+	        }
+       }
     },
     renderCanvas : function(b_model_report_component) {
         //rerender canvas when new tool is dragged from toolbox layout
