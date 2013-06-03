@@ -68,7 +68,7 @@ CanvasView = Backbone.View.extend({
     },
     growBox : function(e) {
         var targetDiv = $("#" + e.currentTarget.id)
-        targetDiv.css("box-shadow", "10pt 10pt 5pt #888888");
+        targetDiv.css("box-shadow", "0pt 0pt 3.75pt #888888");
         $('#'+e.currentTarget.id+' #close_x').show()
     },
     resetGrowBox : function(e) {
