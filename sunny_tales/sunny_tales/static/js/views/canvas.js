@@ -64,6 +64,8 @@ CanvasView = Backbone.View.extend({
     },
     removeComponent: function(e) {
     	this.b_styleCollection.reset();
+    	var targetModel = this.b_components.get(e.currentTarget.parentNode.id);
+    	this.b_components.remove(targetModel)
     	$('#'+e.currentTarget.parentNode.id).remove()
     },
     growBox : function(e) {
