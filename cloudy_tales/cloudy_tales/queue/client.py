@@ -47,6 +47,9 @@ class RpcClient():
 
         self.channel.basic_consume(self.on_response, no_ack=True, queue=self.callback_queue)
 
+    def __del__(self):
+        self.close_connection()
+
     def close_connection(self):
         self.connection.close()
 
@@ -56,6 +59,12 @@ class RpcClient():
 
     def on_timeout(self):
         raise RPCTimeout()
+    
+    def get_timeout_id(self):
+        return self.connection.add_timeout(15, self.on_timeout)
+
+    def remove_timeout(self, timeout_id):
+        self.connection.remove_timeout(timeout_id)
 
     def publish(self, msg):
         self.response = None
@@ -64,7 +73,6 @@ class RpcClient():
                                    routing_key='pdf',
                                    properties=pika.BasicProperties(reply_to=self.callback_queue, correlation_id=self.corr_id,),
                                    body=msg)
-        self.connection.add_timeout(15, self.on_timeout)
         while self.response is None:
             self.connection.process_data_events()
         return self.response
@@ -76,9 +84,10 @@ def publish(msg):
     '''
     try:
         rpc = component.getUtility(IRpcClient)
+        timeout_id = rpc.get_timeout_id()
         results = rpc.publish(json.dumps(msg))
     except RPCTimeout:
         results = None
     finally:
-        pass
+        rpc.remove_timeout(timeout_id)
     return results
