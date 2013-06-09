@@ -3,7 +3,6 @@ import subprocess
 import os
 import signal
 import atexit
-from cloudy_tales.queue.client import create_queue_connection
 
 CAKE_PROCESS = None
 
@@ -19,9 +18,6 @@ def main(global_config, **settings):
     config.include('sunny_tales.api.v0.template', route_prefix='/api/v0')
     config.scan()
     precompile()
-
-    # Set up queue connection
-    create_queue_connection()
 
     return config.make_wsgi_app()
 

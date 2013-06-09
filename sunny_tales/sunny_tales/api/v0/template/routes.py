@@ -17,9 +17,9 @@ from cloudy_tales.data_fusion.translate import combine_template_with_data
 from cloudy_tales.database.connectionManager import DbConnectionManager
 from cloudy_tales.database.collections.base import BaseCollection
 from pyramid.response import Response
-from cloudy_tales.queue.client import publish
 from sunny_tales.exceptions.httpexceptions import SunnyHTTPServiceUnavailable
 from cloudy_tales.data_aggregator.transaction_aggregator import aggregate_for_transaction
+from cloudy_tales.queue.PdfClient import PdfClient
 
 
 @view_config(route_name='toolbox', request_method='GET', renderer='json')
@@ -142,14 +142,18 @@ def create_pdf(request):
     result = combine_template_with_data(template=current, data=aggregate_for_transaction(data['fields']))
 
     # publish the templated result to the queue to create pdf
-    pdf_content = publish(result)
+    pdfClient = PdfClient()
+    pdf_content = pdfClient.call(result)
 
     # Timeout occurred if pdf_content is None
     if not pdf_content:
         raise SunnyHTTPServiceUnavailable()
 
-    #return __convert_mongo_bson_to_json(parent)
-    return Response(body=pdf_content, content_type='application/pdf')
+    if pdf_content[0:4] == '%PDF':
+        content_type = 'application/pdf'
+    else:
+        content_type = 'text/html'
+    return Response(body=pdf_content, content_type=content_type)
 
 
 def __get_payload(request):
