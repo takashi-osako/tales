@@ -19,6 +19,9 @@ class PdfClient():
         self.corr_id = None
         self.channel.basic_consume(self.on_response, no_ack=True, queue=self.callback_queue)
 
+    def close(self):
+        self.connection.close()
+
     def on_response(self, ch, method, props, body):
         if props.correlation_id == self.corr_id:
             self.response = body

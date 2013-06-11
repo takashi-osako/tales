@@ -143,11 +143,10 @@ def create_pdf(request):
 
     # publish the templated result to the queue to create pdf
     pdfClient = PdfClient()
-    pdf_content = pdfClient.call(result)
-
-    # Timeout occurred if pdf_content is None
-    if not pdf_content:
-        raise SunnyHTTPServiceUnavailable()
+    try:
+        pdf_content = pdfClient.call(result)
+    finally:
+        pdfClient.close()
 
     if pdf_content[0:4] == '%PDF':
         content_type = 'application/pdf'
